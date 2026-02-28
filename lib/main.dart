@@ -70,9 +70,29 @@ class MyApp extends StatelessWidget {
           return ListTile(
             title: Text(products[index]),
             trailing: AddButton(item: products[index],),
-          );
-        },
-      ),
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  // Widget Tombol Tambah (Menggunakan Provider)
+  class AddButton extends StatelessWidget {
+  final String item;
+  const AddButton({required this.item, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // context.select memantau apakah item ini sudah ada di keranjang
+    final isInCart = context.select<CartModel, bool>((cart) => cart.items.contains(item));
+
+    return TextButton(
+      onPressed: isInCart ? null : () {
+        //context.read digunakan untuk memanggil fungsi tanpa mendengarkan perubahan
+        context.read<CartModel>().add(item);
+      },
+    child: isInCart ? Icon(Icons.check, color: Colors.green,) : Text('Tambah'),
     );
   }
 }
