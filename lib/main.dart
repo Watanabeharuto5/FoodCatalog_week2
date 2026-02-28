@@ -91,9 +91,54 @@ class MyApp extends StatelessWidget {
       onPressed: isInCart ? null : () {
         //context.read digunakan untuk memanggil fungsi tanpa mendengarkan perubahan
         context.read<CartModel>().add(item);
-      },
+        },
     child: isInCart ? Icon(Icons.check, color: Colors.green,) : Text('Tambah'),
-    );
+      );
+    }
   }
-}
+
+  // Halaman Keranjang
+  class MyCart extends StatelessWidget {
+  const MyCart({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+  var cart = context.watch<CartModel>();
+
+    return Scaffold(
+            appBar: AppBar(
+              title: const Text("Cart"),
+              actions: const [],
+            ),
+            body: Container(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: cart.items.length,
+                      itemBuilder: (context, index) => 
+                        ListTile(
+                          leading: Icon(Icons.fastfood), title: Text(cart.items[index]),
+                      )
+                    )
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: ElevatedButton(
+                      onPressed: () => cart.removeAll(), 
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: Text('Delete Cart', style: TextStyle(color: Colors.white),)
+                    )
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+      }
 }
