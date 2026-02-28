@@ -44,5 +44,36 @@ class MyApp extends StatelessWidget {
     );
   }
 
+  //Halaman Catalog
+  class MyCatalog extends StatelessWidget {
+  const MyCatalog({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    final products = ['Nasi Goreng', 'Sate Ayam', 'Ayam Bakar', 'kopi'];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Menu'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
+            icon: const Icon(Icons.shopping_cart),
+          )
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(products[index]),
+            trailing: AddButton(item: products[index],),
+          );
+        },
+      ),
+    );
+  }
+}
 }
